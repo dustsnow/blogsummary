@@ -1,17 +1,23 @@
 <?php
 
+/**
+ * Implements hook_menu()
+ */
+
 function blogsummary_menu(){
 	$items['user/%user/blog'] = array(
 		'title' => 'Posts',
 		'page callback' => 'blogsummary_get_posts',
 		'access callback' => TRUE,
-		
 		'type' => MENU_LOCAL_TASK,
 		'weight' => 0,
 	);
 	return $items;
 }
 
+/**
+ * Get the Recent 5 Posts 
+ */
 function blogsummary_get_posts(){
 	$query = db_select('node','n');
 	$u_alias = $query->innerJoin('users','u','%alias.uid=n.uid');
@@ -29,6 +35,9 @@ function blogsummary_get_posts(){
 
 	return $node_title_list;
 }
+/**
+ * Implements hook_user_view().
+ */
 
 function blogsummary_user_view($account){
 	$query = db_select('node','n');

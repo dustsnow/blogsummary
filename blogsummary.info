@@ -1,0 +1,5 @@
+name = Blog Summary
+description = Demonstrates menu local tasks.
+package = Peng Hou
+core = 7.x
+files[] = blogsummary.module

@@ -17,8 +17,13 @@ function blogsummary_menu(){
 
 /**
  * Get the Recent 5 Posts 
+ *
+ * @param: $number
+ * 		An optional number which specify the number of posts to show on the dashboard page
+ * @return
+ *      A renderable array containing the posts
  */
-function blogsummary_get_posts(){
+function blogsummary_get_posts($number = 5){
 	$query = db_select('node','n');
 	$u_alias = $query->innerJoin('users','u','%alias.uid=n.uid');
 	$query->addField($u_alias, 'name', 'username');
@@ -28,7 +33,7 @@ function blogsummary_get_posts(){
 		->condition('type', 'blog')
 		->condition('n.status', 1)
 		->orderBy('n.created','DESC')
-		->range(0, 5)
+		->range(0, $number)
 		->addTag('node_access')
 		->execute();
 	$node_title_list = node_title_list($result);

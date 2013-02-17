@@ -1,5 +1,7 @@
 <?php
 
+
+
 /**
  * Implements hook_menu()
  */
@@ -20,7 +22,19 @@ function blogsummary_menu(){
 		'access arguments' => array('administer users'),
 		'type' => MENU_NORMAL_ITEM,
 	);
+	$items['accountblog'] = array(
+		'title' => 'Posts',
+		'page callback' => 'blogsummary_accountdashboard_view',
+		'access callback' => TRUE,
+		'type' => MENU_NORMAL_ITEM,
+		'weight' => 0,
+		'menu_name' => 'accountdashboard',
+	);
 	return $items;
+}
+
+function blogsummary_accountdashboard_view(){
+	return blogsummary_get_posts();
 }
 
 /**
@@ -75,20 +89,6 @@ function blogsummary_get_posts(){
  */
 
 function blogsummary_user_view($account){
-	// $query = db_select('node','n');
-	// $u_alias = $query->innerJoin('users','u','%alias.uid=n.uid');
-	// $query->addField($u_alias, 'name', 'username');
-	// $result = $query
-	// 	->fields('n',array('nid', 'title','created'))
-	// 	->condition("{$u_alias}.name", 'dustsnow')
-	// 	->condition('type', 'blog')
-	// 	->condition('n.status', 1)
-	// 	->orderBy('n.created','DESC')
-	// 	->range(0, 5)
-	// 	->addTag('node_access')
-	// 	->execute();
-	//
-
 	$node_title_list = blogsummary_get_posts();
 	if(user_access('create blog content', $account)){
 		$account->content['blogsummary'] = array(
